@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>PhotoShop 参数转 CSS 阴影值</title>
+  <style>
+    .content-wrap {
+      width: 500px;
+      margin: 50px auto;
+    }
+
+    .title {
+      text-align: center;
+    }
+    
+    form {
+      margin-left: 100px;
+    }
+    .form-item {
+      line-height: 50px;
+    }
+
+    .form-item input {
+      width: 50px;
+      height: 25px;
+    }
+  </style>
+</head>
+<body>
+  <div class="content-wrap">
+      <h3 class="title">Photoshop投影与CSS中box-shadow的转换工具</h3>
+
+      <form>
+        <div class="form-item">
+          <label for="angle">角度：</label>
+          <input type="text" id="angle"> 度
+        </div>
+        <div class="form-item">
+          <label for="distance">距离：</label>
+          <input type="text" id="distance"> 像素
+        </div>
+        <div class="form-item">
+          <label for="extend">扩展：</label>
+          <input type="text" id="extend"> %
+        </div>
+        <div class="form-item">
+          <label for="size">大小：</label>
+          <input type="text" id="size"> 像素
+        </div>
+        <div class="form-item">
+            <label for="transform"></label>
+            <input type="button" value="转换" onclick="tranform()"> 
+          </div>
+      </form>
+
+      <div id="result">
+
+      </div>
+  </div>
+  <script>
+    // color: rgba(118,113,113,.75)
+    // x-offset: 5 * cos(180°- 145°) = 4.09px
+    // y-offset: 5 * sin(180°- 145°) = 2.87px
+    // spread-radius: 10 * 6% = 0.6px
+    // blur-radius: 10 - 0.6 = 9.4px;
+    // box-shadow: 4.09px 2.87px 9.4px 0.6px rgba(118,113,113,.75);
+    // text-shadow: 4.09px 2.87px 9.4px rgba(118,113,113,.75);
+
+    function tranform() {
+      var angle = document.getElementById("angle").value,
+        distance = document.getElementById("distance").value,
+        extend = document.getElementById("extend").value,
+        size = document.getElementById("size").value,
+        result = document.getElementById("result")
+
+      xOffset = distance * Math.cos((180 - angle) / 180 * Math.PI)
+      yOffset = distance * Math.sin((180 - angle) / 180 * Math.PI)
+      spreadRadius = size  * extend / 100
+      blurRadius = size - spreadRadius
+      
+      var str = "box-shadow: " + xOffset.toFixed(2) + "px " + yOffset.toFixed(2) + "px " + blurRadius + 'px ' + spreadRadius + 'px rgba(0, 0, 0, 1);'
+      result.innerText = str
+    }
+    
+
+    
+  </script>
+</body>
+</html>
