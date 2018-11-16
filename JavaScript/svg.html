@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>svg</title>
+  <style>
+    .circle {
+      fill: none;
+      stroke: black;
+      stroke-width: 2;
+    }
+
+    .line {
+      stroke: #000;
+      stroke-width: 2;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>语法</h2>
+  <h4>circle</h4>
+  <svg width="200" height="60">
+    <circle cx="30" cy="30" r="25" class="circle" />
+  </svg>
+  <h4>line</h4>
+  <svg width="300" height="20">
+    <line x1="0" y1="1" x2="200" y2="1" class="line" />
+  </svg>
+  <h4>polyline 折线</h4>
+  <svg width="300" height="60">
+    <polyline points="3,3 30,28 3,53" fill="none" stroke="black" />
+  </svg>
+  <h4>rect 矩形</h4>
+  <svg width="300" height="60">
+    <rect x="0" y="0" width="100" height="50" style="stroke: #70d5dd; fill: #000" />
+  </svg>
+  <h4>ellipse 椭圆</h4>
+  <svg width="300" height="80">
+    <ellipse cx="50" cy="40" rx="40" ry="20" stroke="black" />
+  </svg>
+  <h4>polygon 多边形</h4>
+  <svg width="300" height="100">
+    <polygon stroke-width="1" points="0,0 100,0 100,100 0,100 0,0"/>
+  </svg>
+  <h4>path</h4>
+  <svg width="300" height="80">
+    <path d="
+      M 18,3
+      L 46,3
+      L 46,40
+      L 61,40
+      L 32,68
+      L 3,40
+      L 18,40
+      Z
+    "></path>
+  </svg>
+  <h4>text</h4>
+  <svg width="300" height="40">
+    <text x="0" y="15">hello world</text>
+  </svg>
+  <h4>use 用于复制一个形状。</h4>
+  <svg width="300" height="80">
+    <circle id="myCircle" cx="30" cy="30" r="25" />
+
+    <use href="#myCircle" x="60" y="0" fill="blue" />
+    <use href="#myCircle" x="120" y="0" fill="white" stroke="blue" />
+  </svg>
+  <h4>g 用于将多个形状组成一个组（group），方便复用。</h4>
+  <svg width="300" height="80">
+    <g id="myCircle1">
+      <text x="25" y="20">圆形</text>
+      <circle cx="50" cy="50" r="20"/>
+    </g>
+
+    <use href="#myCircle1" x="100" y="0" fill="blue" />
+    <use href="#myCircle1" x="200" y="0" fill="white" stroke="blue" />
+  </svg>
+  <h4>defs 用于自定义形状，它内部的代码不会显示，仅供引用。</h4>
+  <svg width="300" height="100">
+    <defs>
+      <g id="myCircle2">
+        <text x="25" y="20">圆形</text>
+        <circle cx="50" cy="50" r="20"/>
+      </g>
+    </defs>
+
+    <use href="#myCircle2" x="0" y="0" />
+    <use href="#myCircle2" x="100" y="0" fill="blue" />
+    <use href="#myCircle2" x="200" y="0" fill="white" stroke="blue" />
+  </svg>
+  <h4>pattern 用于自定义一个形状，该形状可以被引用来平铺一个区域。</h4>
+  <svg width="300" height="300">
+    <defs>
+      <pattern id="dots" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+        <circle fill="#bee9e8" cx="50" cy="50" r="35" />
+      </pattern>
+    </defs>
+    <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)" />
+  </svg>
+  <h4>image</h4>
+  <svg viewBox="0 0 100 100" width="200" height="200">
+    <image xlink:href="http://tupian.qqjay.com/u/2017/1201/2_161641_2.jpg"
+      width="100%" height="100%"/>
+  </svg>
+  <h4>animate</h4>
+  <svg width="300px" height="100px">
+    <rect x="0" y="0" width="100" height="100" fill="#feac5e">
+      <animate attributeName="x" from="0" to="300" dur="2s" repeatCount="indefinite" />
+    </rect>
+  </svg>
+  <h4>animateTransform</h4>
+  <svg width="300px" height="300px">
+    <rect x="50" y="50" width="50" height="50" fill="#4bc0c8">
+      <animateTransform attributeName="transform" type="rotate" begin="0s" dur="10s" from="0 50 50" to="100 200 200" repeatCount="indefinite" />
+    </rect>
+  </svg>
+
+  文档链接<a href="http://javascript.ruanyifeng.com/htmlapi/svg.html">SVG 图像</a>
+</body>
+</html>
