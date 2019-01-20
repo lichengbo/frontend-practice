@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>JavaScript Array 高阶函数</title>
+</head>
+<body>
+
+  <script>
+    // every 方法测试数组的所有元素是否都通过了指定函数的测试。
+    console.log('*** every ***')
+    let arr = [1, 2, 3, 4]
+    let res = arr.every(item => item < 5)
+    console.log(res)
+
+    // filter
+    console.log('*** filter ***')
+    res = arr.filter(item => item < 2)
+    console.log(res)
+
+    // 使用filter 数组去重
+    let arr1 = [1, 1, 2, 2, 3, 4, 3]
+    res = arr1.filter((item, index) => arr.indexOf(item) === index)
+    console.log(arr)
+
+    // map
+    console.log('*** map ***')
+    res = arr.map((item) => item * item)
+    console.log(res)
+    console.log()
+
+    // reduce
+    console.log('*** reduce ***')
+    res = arr.reduce((x, y) => x + y)
+    console.log(res)
+
+    // sort
+    console.log('*** sort ***')
+    let arr2 = [10, 20, 1, 2]
+    res = arr2.sort((x, y) => {
+      if(x < y) return -1
+      if(x > y) return 1
+      return 0
+    })
+    console.log(res)
+
+  </script>
+</body>
+</html>
