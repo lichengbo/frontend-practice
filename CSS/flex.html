@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>flex 布局</title>
+  <style>
+    .wrap {
+      width: 1200px;
+      margin: 20px auto;
+    }
+    .demo {
+      display: flex;
+    }
+    .demo-item {
+      width: 50px;
+      height: 50px;
+      margin: 10px;
+      text-align: center;
+      line-height: 50px;
+      background: lightgreen;
+    }
+    .demo-direction-row {
+      flex-direction: row;
+    }
+    .demo-direction-row-reverse {
+      flex-direction: row-reverse;
+    }
+    .demo-direction-column {
+      flex-direction: column;
+    }
+    .demo-direction-column-reverse {
+      flex-direction: column-reverse;
+    }
+
+    .demo-flex-wrap .demo-item {
+      width: 500px;
+    }
+    .demo-wrap-nowrap {
+      flex-wrap: nowrap;
+    }
+    .demo-wrap-wrap {
+      flex-wrap: wrap;
+    }
+    .demo-wrap-wrap-reverse {
+      flex-wrap: wrap-reverse;
+    }
+    .demo-justify-content-flex-start {
+      justify-content: flex-start;
+    }
+    .demo-justify-content-flex-end {
+      justify-content: flex-end;
+    }
+    .demo-justify-content-center {
+      justify-content: center;
+    }
+    .demo-justify-content-space-between {
+      justify-content: space-between;
+    }
+    .demo-justify-content-space-around {
+      justify-content: space-around;
+    }
+
+    .demo-align-items .demo-item:nth-child(1) {
+      height: 60px;
+    }
+    .demo-align-items .demo-item:nth-child(3) {
+      height: 80px;
+    }
+    .demo-align-items-flex-start {
+      align-items: flex-start;
+    }
+    .demo-align-items-flex-end {
+      align-items: flex-end;
+    }
+    .demo-align-items-stretch {
+      align-items: stretch;
+    }
+  </style>
+</head>
+<body>
+ <div class="wrap">
+   <div>
+      <h4>flex 容器属性值</h4>
+      <h4>flex-direction: 属性决定主轴的方向（即项目的排列方向）。 可选值：row | row-reverse | column | column-reverse</h4>
+      <h4>flex-wrap: 定义如果一条轴线排不下，如何换行。可选值：nowrap | wrap | wrap-reverse</h4>
+      <h4>flex-flow: 属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap</h4>
+      <h4>justify-content: 属性定义了项目在主轴上的对齐方式。可选值：flex-start | flex-end | center | space-between | space-around</h4>
+      <h5>
+          space-between：两端对齐，项目之间的间隔都相等。<br>
+          space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。
+      </h5>
+      <h4>align-items: 属性定义项目在交叉轴上如何对齐。可选值：flex-start | flex-end | center | baseline | stretch</h4>
+      <h5>flex-start：交叉轴的起点对齐。<br>
+          flex-end：交叉轴的终点对齐。<br>
+          center：交叉轴的中点对齐。<br>
+          baseline: 项目的第一行文字的基线对齐。<br>
+          stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。</h5>
+      <h4>align-content: 属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。可选值：flex-start | flex-end | center | space-between | space-around | stretch</h4>
+      <h5>
+          flex-start：与交叉轴的起点对齐。<br>
+          flex-end：与交叉轴的终点对齐。<br>
+          center：与交叉轴的中点对齐。<br>
+          space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。<br>
+          space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。<br>
+          stretch（默认值）：轴线占满整个交叉轴。
+      </h5>
+
+      <h4>项目属性</h4>
+      <h4>order: 属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。</h4>
+      <h4>flex-grow: 属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。</h4>
+      <h4>flex-shrink: 属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。</h4>
+      <h4>flex-basis: 属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。</h4>
+      <h4>flex: 属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选</h4>
+      <h4>align-self: 属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</h4>
+   </div>
+
+
+  <h2>flex-direction</h2>
+
+  <h3>flex-direction: row</h3>
+  <div class="demo demo-direction-row">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+
+  <h3>flex-direction: row-reverse</h3>
+  <div class="demo demo-direction-row-reverse">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+
+  <h3>flex-direction: column</h3>
+  <div class="demo demo-direction-column">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+
+  <h3>flex-direction: column-reverse</h3>
+  <div class="demo demo-direction-column-reverse">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+
+  <h2>flex-wrap</h2>
+
+  <h3>flex-wrap: nowrap</h3>
+  <div class="demo demo-flex-wrap demo-wrap-nowrap">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+  <h3>flex-wrap: wrap</h3>
+  <div class="demo demo-flex-wrap demo-wrap-wrap">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+  <h3>flex-wrap: wrap-reverse</h3>
+  <div class="demo demo-flex-wrap demo-wrap-wrap-reverse">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+
+  <h2>justify-content</h2>
+
+  <h3>justify-content: flex-start</h3>
+  <div class="demo demo-justify-content demo-justify-content-flex-start">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+  <h3>justify-content: flex-end</h3>
+  <div class="demo demo-justify-content demo-justify-content-flex-end">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+  <h3>justify-content: center</h3>
+  <div class="demo demo-justify-content demo-justify-content-center">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+  <h3>justify-content: space-between</h3>
+  <div class="demo demo-justify-content demo-justify-content-space-between">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+  <h3>justify-content: space-around</h3>
+  <div class="demo demo-justify-content demo-justify-content-space-around">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+  <h4>space-between：两端对齐，项目之间的间隔都相等。</h4>
+  <h4>space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。</h4>
+
+  <h3>align-items</h3>
+  <h3>align-items: flex-start</h3>
+  <div class="demo demo-align-items demo-align-items-flex-start">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+  <h3>align-items: flex-end</h3>
+  <div class="demo demo-align-items demo-align-items-flex-end">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+  <h3>align-items: stretch</h3>
+  <div class="demo demo-align-items demo-align-items-stretch">
+    <div class="demo-item">1</div>
+    <div class="demo-item">2</div>
+    <div class="demo-item">3</div>
+  </div>
+ </div>
+</body>
+</html>
