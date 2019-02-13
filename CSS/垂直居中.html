@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSS 垂直居中</title>
+  <style>
+    .demo {
+      width: 100px;
+      height: 100px;
+      background: lightgreen;
+      margin-bottom: 10px;
+      position:relative;
+    }
+    .demo1 {
+      text-align: center;
+      line-height: 100px;
+    }
+    .demo2 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .demo3 {
+      display: flex;
+      text-align: center;
+    }
+    .demo3 span {
+      margin: auto;
+    }
+    .demo4 span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      transform: translate(-50%,-50%);
+      text-align: center;
+    }
+    .demo5 {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo demo1">demo1</div>
+  <div class="demo demo2">demo2</div>
+  <div class="demo demo3"><span>demo3</span></div>
+  <div class="demo demo4"><span>demo4</span></div>
+  <div class="demo demo5">demo5</div>
+</body>
+</html>
