@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input">
+    <script>
+      // 函数防抖: 任务频繁触发的情况下，只有任务触发的间隔超过指定间隔的时候，任务才会执行。
+      let oInput = document.querySelector('#input')
+      oInput.oninput = debounce(function() {
+        console.log(oInput.value)
+      })
+
+      function debounce(fn, interval = 3000) {
+        let timeout = null
+        return function() {
+          clearTimeout(timeout)
+          timeout = setTimeout(function() {
+            fn.apply(this, arguments)
+          }, interval)
+        }
+      }
+
+      // 函数节流: 指定时间间隔内只会执行一次任务；
+      function throttle(fn, interval = 300) {
+          let canRun = true;
+          return function () {
+            if (!canRun) return;
+            canRun = false;
+            setTimeout(() => {
+              fn.apply(this, arguments);
+              canRun = true;
+            }, interval);
+          };
+      }
+
+    </script>
+</body>
+</html>

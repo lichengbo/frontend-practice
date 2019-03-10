@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 1. 给一个连字符串例如：get-element-by-id转化成驼峰形式。
+    var str = 'get-element-by-id'
+    var reg = /-\w/g; // 匹配横杆以及之后的一个字符，全局匹配
+
+    str = str.replace(reg, function(item) {
+      return item[1].toUpperCase()
+    })
+
+    // 2. 匹配二进制数字
+    var str1 = "101011112";
+    var reg1 = /^[01]+$/g
+    // console.log(reg1.test(str1))
+
+    // 3. 非零的十进制数字 (有至少一位数字, 但是不能以0开头)
+    var str2 = '899'
+    var reg2 = /^[1-9]\d*$/
+    // console.log(reg2.test(str2))
+
+    // 匹配qq号最长为13为
+    var str3 = "1000909328334"
+    var reg3 = /^[1-9]\d{4,12}$/
+    // console.log(reg3.test(str3))
+
+    // 匹配用尖括号括起来的以a开头的字符串
+    var str4 = "adfsf<a herf='www.baidu.com'>sdfds"
+    var reg4 = /<[^>]+>/g
+    // console.log(str4.match(reg4))
+
+    // 分割数字每三个以一个逗号划分
+    var str5 = "12345678901"
+    var reg5 = /(\d)(?=(\d{3})+$)/g
+    // console.log(str5.replace(reg5, function(item) {
+    //   return item + ','
+    // }))
+
+    var str6 = `The colors of the rainbow have many colours
+and the rainbow does not  have a single colour.`
+// 我们想把所有的颜色找出来colors colours colour
+    var reg6 = /(colo)\w+/g
+    // console.log(str6.match(reg6))
+  </script>
+</body>
+</html>

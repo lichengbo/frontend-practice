@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function Parent(name) {
+      this.name = 'Parent'
+    }
+
+    let p = new Parent()
+    console.log(Parent.prototype) // Parent{}
+    console.log(p.prototype) // undefined
+    console.log(Parent.__proto__) // Function
+    console.log(p.__proto__) // Parent {} 指向Parent 原型
+
+    // 原型链示例
+    let A = {name: 'a'}
+    let B = {age : 18}
+    let C = {height: 180}
+    A.__proto__ = B
+    B.__proto__ = C
+    console.log(A.height)
+
+  /**
+   * 一个对象 A的__proto__属性指向的那个对象B，B就是 A 的原型对象（或者叫父对象），
+   * 对象 A 可以使用对象 B 中的属性和方法，同时也可以使用对象 B 的 原型对象C 上的属性和方法，以此递归，就是所谓的原型链
+   */
+  </script>
+</body>
+</html>
