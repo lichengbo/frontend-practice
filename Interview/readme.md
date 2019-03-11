@@ -1,6 +1,28 @@
 # 复习知识点
 
 # CSS
+## 什么是Web 语义化
+Web语义化是指使用恰当语义的html标签、class类名等内容，让页面具有良好的结构与含义，从而让人和机器都能快速理解网页内容。语义化的web页面一方面可以让机器在更少的人类干预情况下收集并研究网页的信息，从而可以读懂网页的内容，然后将收集汇总的信息进行分析，结果为人类所用；另一方面它可以让开发人员读懂结构和用户以及屏幕阅读器（如果访客有视障）能够读懂内容。 简单来说就是利于 SEO，便于阅读维护理解。
+
+总结起来就是：
+- 正确的标签做正确的事情
+- 页面内容结构化
+- 无CSS样子时也容易阅读，便于阅读维护和理解
+- 便于浏览器、搜索引擎解析。 利于爬虫标记、利于SEO
+
+## HTML5 新增了哪些新特性
+1. 语意特性,添加<header><nav>等标签
+2. 多媒体， 用于媒介播放的 video 和 audio 元素
+3. 图像效果，用于绘画的 canvas 元素，svg元素等
+4. 离线 & 存储,对本地离线存储的更好的支持,localStore,Cookies等
+5. 设备兼容特性 ，HTML5提供了前所未有的数据与应用接入开放接口。使外部应用可以直接与浏览器内部的数据直接相连，
+
+## CSS3 新增了哪些属性
+CSS3中新添加了很多选择器，解决了很多之前需要用javascript才能解决的布局问题。
+新增了transition、transform和animation动画相关的特性
+边框新增分别是border-radius、box-shadow和border-image。
+CSS3新增了几个关于背景的属性，分别是background-clip、background-origin、background-size和background-break。
+
 ## 清除浮动
 清除浮动是为了清除使用浮动元素产生的影响。浮动的元素，高度会塌陷，而高度的塌陷使我们页面后面的布局不能正常显示。
 父级使用overflow: auto
@@ -34,10 +56,15 @@ em最多取到小数点的后三位
 ## CSS moudle
 CSS 没有作用域，相同的会覆盖，css moudle 它将为css提供默认的局部作用域
 
+## 重绘（Repaint）和回流（Reflow）
+重绘是当节点需要更改外观而不会影响布局的，比如改变 color 就叫称为重绘
+回流是布局或者几何属性需要改变就称为回流。
+回流必定会发生重绘，重绘不一定会引发回流。回流所需的成本比重绘高的多，改变深层次的节点很可能导致父节点的一系列回流。
+
 ## js 延迟加载
-1、defer和async都是使script异步加载的意思，当都没有设置这个属性的时候，html的加载会被阻塞等着script加载完成和执行完成后再渲染页面。
-2、当设置了async时，异步加载，一旦加载完成则阻塞html渲染，进行执行，而且如果有多个script标签则谁先加载完，谁先执行。
-3、当设置了defer时，异步加载，不会阻塞html，待html渲染完毕后再进行script执行。
+- defer和async都是使script异步加载的意思，当都没有设置这个属性的时候，html的加载会被阻塞等着script加载完成和执行完成后再渲染页面。
+- 当设置了async时，异步加载，一旦加载完成则阻塞html渲染，进行执行，而且如果有多个script标签则谁先加载完，谁先执行。
+- 当设置了defer时，异步加载，不会阻塞html，待html渲染完毕后再进行script执行。
 
 ### js
 ## 变量基本类型
@@ -63,6 +90,7 @@ this，函数执行的上下文，可以通过apply，call，bind改变this的�
 
 ## 闭包
 函数 A 返回了一个函数 B，并且函数 B 中使用了函数 A 的变量，函数 B 就被称为闭包。
+```
 function A() {
   let a = 1
   function B() {
@@ -70,15 +98,16 @@ function A() {
   }
   return B
 }
+```
 
 使用闭包的优点
-能使一个变量长期驻留在内存中
-避免全局变量的污染
-可以构造私有成员
+- 能使一个变量长期驻留在内存中
+- 避免全局变量的污染
+- 可以构造私有成员
 
 使用闭包的注意事项
-注意内存泄漏，特别是在IE 浏览器中。在函数末尾应将没用的变量清除
-闭包会在父函数外部，改变父函数内部变量的值。
+- 注意内存泄漏，特别是在IE 浏览器中。在函数末尾应将没用的变量清除
+- 闭包会在父函数外部，改变父函数内部变量的值。
 
 ## new
 调用new 做下面四种操作
@@ -86,6 +115,17 @@ function A() {
 2. 链接到原型
 3. 绑定 this
 4. 返回新对象
+
+```
+var a = new A();
+
+// 1. 首先创建一个空对象
+var o = new Object();
+// 2. 将空对象的原型赋值为构造器函数的原型
+o.__proto__ = A.prototype;
+// 3. 更改构造器函数内部this，将其指向新创建的空对象
+A.call(o);
+
 function create() {
   let obj = new Object()
   // 获得构造函数
@@ -97,6 +137,7 @@ function create() {
   // 确保 new 出来的是个对象
   return typeof result === 'object' ? result : obj
 }
+```
 
 ## 原型和原型链
 http://es6.ruanyifeng.com/#docs/class-extends
@@ -110,7 +151,7 @@ prototype 是一个显式的原型属性，只有函数才拥有该属性。
 当你想要使用一个对象（或者一个数组）的某个功能时：如果该对象本身具有这个功能，则直接使用；如果该对象本身没有这个功能，则去 __proto__ 中找。
 显式原型：用来实现基于原型的继承与属性的共享。
 隐式原型：构成原型链，同样用于实现基于原型的继承。
-实例的__proto__属性（原型）等于其构造函数的prototype属性。
+实例的 __proto__ 属性等于其构造函数的prototype属性。
 
 function GirlFriend () {
      this.name = "Alice";
@@ -242,10 +283,7 @@ Etag 的出现主要是为了解决 Last-Modified 存在的问题：
 Last-Modified 标注的最后修改只能精确到秒级，如果某些文件在 1 秒钟以内被修改多次的话，它将不能准确标注文件的最后修改时间；
 如果本地打开缓存文件，即使没有对文件进行修改，但 Last-Modified 却改变了，导致文件没法使用缓存；
 
-Content-type、Content-Encoding等用来约束数据类型
-cookie保持会话信息
-
-什么是三次握手
+## 什么是三次握手
 https://github.com/jawil/blog/issues/14
 ![三次握手](https://user-gold-cdn.xitu.io/2019/2/20/1690b50f3f373982?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 第一次握手：
@@ -273,6 +311,13 @@ HTTPS链接的创建过程，以及为什么HTTPS就是安全的 https://wetest.
 5. 浏览器解析渲染页面
 6. 连接结束
 
+渲染过程：
+根据 HTML 结构生成 DOM 树
+根据 CSS 生成 CSSOM
+将 DOM 和 CSSOM 整合形成 RenderTree
+根据 RenderTree 开始渲染和展示
+遇到<script>时，会执行并阻塞渲染
+
 https://segmentfault.com/a/1190000006879700
 
 ## cookie localStorage sessionStorage
@@ -298,8 +343,8 @@ localStorage和sessionStorage：源生接口可以接受，亦可再次封装来
 ## 排序
 ![排序对比](https://user-gold-cdn.xitu.io/2016/11/29/4abde1748817d7f35f2bf8b6a058aa40?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
-## 消息队列和事件循环
-Macrotasks和Microtasks 都属于上述的异步任务中的一种，他们分别有如下API：
+## 事件循环
+宏任务(Macrotasks)和微任务(Microtasks) 都属于上述的异步任务中的一种，他们分别有如下API：
 macrotasks: setTimeout, setInterval, setImmediate, I/O, UI rendering
 microtasks: process.nextTick, Promise, MutationObserver
 任务队列中，在每一次事件循环中，macrotask只会提取一个执行，而microtask会一直提取，直到microtask队列为空为止。也就是说如果某个microtask任务被推入到执行中，那么当主线程任务执行完成后，会循环调用该队列任务中的下一个任务来执行，直到该任务队列到最后一个任务为止。而事件循环每次只会入栈一个macrotask,主线程执行完成该任务后又会检查microtasks队列并完成里面的所有任务后再执行macrotask的任务。
@@ -405,7 +450,8 @@ Object.definePrototype(data, 'text', {
 })
 
 ## vuex
- state、getter、mutation、action、module
+vuex 是专门为 vue 开发的数据状态管理模式。组件之间数据状态共享
+state、getter、mutation、action、module
 
  ## Vue 和React 的区别
 相同点：

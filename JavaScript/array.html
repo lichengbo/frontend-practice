@@ -13,28 +13,27 @@
     console.log('*** every ***')
     let arr = [1, 2, 3, 4]
     let res = arr.every(item => item < 5)
-    console.log(res)
+    console.log(res) // true
 
     // filter
     console.log('*** filter ***')
     res = arr.filter(item => item < 2)
-    console.log(res)
+    console.log(res) // [1]
 
     // 使用filter 数组去重
     let arr1 = [1, 1, 2, 2, 3, 4, 3]
-    res = arr1.filter((item, index) => arr.indexOf(item) === index)
-    console.log(arr)
+    res = arr1.filter((item, index) => arr1.indexOf(item) === index)
+    console.log(arr) // [1, 2, 3, 4]
 
     // map
     console.log('*** map ***')
     res = arr.map((item) => item * item)
-    console.log(res)
-    console.log()
+    console.log(res) //
 
     // reduce
     console.log('*** reduce ***')
     res = arr.reduce((x, y) => x + y)
-    console.log(res)
+    console.log(res) // 10
 
     // sort
     console.log('*** sort ***')
@@ -44,7 +43,7 @@
       if(x > y) return 1
       return 0
     })
-    console.log(res)
+    console.log(res) // [1, 2, 10, 20]
 
   </script>
 </body>
