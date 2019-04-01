@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul>
+      控件
+    </ul>
+    <script>
+      setTimeout(() => {
+        // 插入十万条数据
+        const total = 100000
+        // 一次插入 20 条，如果觉得性能不好就减少
+        const once = 20
+        // 渲染数据总共需要几次
+        const loopCount = total / once
+        let countOfRender = 0
+        let ul = document.querySelector('ul')
+        function add() {
+          console.log('add')
+          // 优化性能，插入不会造成回流
+          const fragment = document.createDocumentFragment()
+          for (let i = 0; i < once; i++) {
+            const li = document.createElement('li')
+            li.innerText = Math.floor(Math.random() * total)
+            fragment.appendChild(li)
+          }
+          ul.appendChild(fragment)
+          countOfRender += 1
+          loop()
+        }
+        function loop() {
+          if (countOfRender < loopCount) {
+            window.requestAnimationFrame(add)
+          }
+        }
+        loop()
+      }, 0)
+      /**
+        1. requestAnimationFrame保证在浏览器下次刷新ui前执行回调函数，自带节流效果，通常与浏览器的刷新频率一致(通常是每秒60次)。
+        2. 当前标签页被置于后台时回调函数会停止运行，而setTimeout和setInterval的回调函数会在后台执行
+        3. 与setTimeout和setInterval一样，requestAnimationFrame的回调也会被长时间占用执行栈的任务阻塞
+        4. 目前requestAnimationFrame的回调具体会在何时执行不同浏览器有不同的行为，chrome会在microtask和macrotask之间执行回调而firefox只在macrotask之后执行回调
+      */
+    </script>
+  </body>
+</html>

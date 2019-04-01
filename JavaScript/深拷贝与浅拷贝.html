@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /**
+   * 方法1：使用JSON pasre 但是如果存在function 属性不能拷贝
+   */
+   function deepClone1(source){
+      return JSON.parse(JSON.stringify(source))
+    }
+
+  /**
+   * 方法2：递归复制
+   * 但是没有办法处理源对象内部循环引用的问题，同时对Date，Funcion等类型值也没有实现真正的深度复制，但是这些类型的值在重新定义的时候一般都是直接覆盖
+   */
+   function deepClone2(source){
+      if(!source || typeof source !== 'object'){
+        throw new Error('error arguments', 'shallowClone');
+      }
+      var targetObj = source.constructor === Array ? [] : {};
+      for(var keys in source){
+          if(source.hasOwnProperty(keys)){
+            if(source[keys] && typeof source[keys] === 'object'){
+              targetObj[keys] = source[keys].constructor === Array ? [] : {};
+              targetObj[keys] = deepClone(source[keys]);
+            }else{
+              targetObj[keys] = source[keys];
+            }
+          }
+      }
+      return targetObj;
+    }
+    var o1 = {
+      arr: [1, 2, 3],
+      obj: {
+        key: 'value'
+      },
+      func: function(){
+        return 1;
+      }
+    };
+    var o2 = deepClone1(o1);
+    var o3 = deepClone2(o1)
+  </script>
+</body>
+</html>

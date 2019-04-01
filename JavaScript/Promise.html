@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Promise</title>
+</head>
+<body>
+
+  <script>
+    const PENDING = 'pending'
+    const FULFILLED = 'fulfilled'
+    const REJECTED = 'rejected'
+
+    function MyPromise(fn) {
+      let self = this
+      self.status = PENDING // 存储PENDING, FULFILLED或者REJECTED的状态
+      self.onFulFilledCallbacks = []
+      self.onRejectedCallbacks = []
+
+      // 成功状态变化
+      function resolve(value) {
+        if(self.status === PENDING) {
+          self.status = FULFILLED
+          self.value = value
+          self.onFulFilledCallbacks.forEach(fn => fn())
+        }
+      }
+
+      // 失败状态变化
+      function reject(reason) {
+        if(self.status === PENDING) {
+          self.status = REJECTED
+          self.reason = reason
+          self.onRejectedCallbacks.forEach(fn => fn())
+        }
+      }
+
+      try {
+        fn(resolve, reject)
+      } catch {
+        fn(reject)
+      }
+    }
+
+    MyPromise.prototype.then = function (onFulFilled, onRejected) {
+      if (this.status === PENDING) {
+          this.onFulFilledCallbacks.push(() => {
+            onFulFilled(this.value)
+          });
+          this.onRejectedCallbacks.push(() => {
+            onRejected(this.reason)
+          })
+      } else if (this.status === FULFILLED) {
+          onFulFilled(this.value);
+      } else if (this.status === REJECTED) {
+          onRejected(this.reason);
+      }
+    }
+
+    let p = new MyPromise(function (resove, reject) {
+      setTimeout(() => {
+        console.log('任务执行完了');
+        resove()
+      }, 500)
+    });
+
+    p.then(function (value) {
+          console.log('第一个成功回调')
+        },function () {})
+      // .then(function () {
+      //     console.log('第二个成功回调')
+      //   }, function () {});
+
+
+
+
+  </script>
+</body>
+</html>

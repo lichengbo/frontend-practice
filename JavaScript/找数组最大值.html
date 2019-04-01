@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var arr = [1, 3, 5, 6, 2]
+
+    // 方法1：使用max + ... 操作符
+    console.log(Math.max(...arr))
+
+    // 方法2：使用max + apply
+    console.log(Math.max.apply(null, arr))
+
+    // 方法3：for 循环
+    let max = arr[0]
+    for(let i = 0; i < arr.length; i++) {
+      if(max < arr[i])
+        max = arr[i]
+    }
+    console.log(max)
+
+    // 方法4：sort
+    arr.sort((num1, num2) => {
+      return num2 - num1
+    })
+    console.log(arr[0])
+  </script>
+</body>
+</html>

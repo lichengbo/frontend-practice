@@ -46,7 +46,7 @@ console.log(bubbleSort2(arr))
  * 选择排序
  * 原理: 依次循环找到未排序的最大值，放到最后一位
  * 时间复杂度 O(n^2)
- * 稳定
+ * 不稳定
  */
 
 function selectionSort(arr) {
@@ -66,11 +66,11 @@ function selectionSort(arr) {
 
 console.log(selectionSort(arr))
 
-
 /**
  * 插入排序
  * 原理：对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
  * 时间复杂度：O(n^2)
+ * 稳定
  **/
 
 function insertionSort(arr) {
@@ -113,6 +113,8 @@ console.log(binaryInsertionSort(arr))
  * 快速排序
  * 通过一趟排序将待排记录分隔成独立的两部分，其中一部分记录的关键字均比另一部分的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序。
  * 时间复杂度 O(nlogn)
+ * 空间复杂度 O(nlogn)
+ * 不稳定
  */
 function quickSort(arr) {
   if(arr.length <= 1) return arr
