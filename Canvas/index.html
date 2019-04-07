@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Canvas</title>
+</head>
+<body>
+  <canvas id="canvas" height="250"></canvas><br>
+  <canvas id="canvas2" height="250"></canvas><br>
+  <canvas id="canvas3"></canvas><br>
+  <canvas id="canvas4"></canvas><br>
+  <canvas id="canvas5"></canvas><br>
+  <canvas id="canvas6" height="200"></canvas><br>
+  <canvas id="canvas7"></canvas><br>
+  <canvas id="canvas8" width="800" height="400"></canvas><br>
+  <canvas id="canvas9" height="200"></canvas><br>
+  <canvas id="canvas10"></canvas><br>
+
+
+  <script>
+    var canvas = document.getElementById('canvas')
+    var context = canvas.getContext("2d")
+
+    /**
+     * 绘制文字
+     * context.font 设置字体样式
+     * context.textAlign 水平对齐方式 属性值有 start、end、right、center
+     * context.textBaseline 垂直对齐方式 属性值有 top、hanging、middle、alphabetic、ideographic、bottom
+     * context.measureText(text) 计算字体长度 （只能计算长度，不能计算高度）
+     * context.fillText (text, x,y,[maxwidth]); 填充文字
+     * context.strokeText (text, x,y,[maxwidth]); 绘制文字轮廓
+     */
+
+    context.fillStyle = '#000'
+    context.font = "bold 20px '宋体'"
+    context.fillText('1. 绘制直线', 0, 20)
+
+    /**
+     *  绘制直线
+     * context.moveTo(x, y)
+     * context.lineTo(x, y)
+     * lineJoin 属性,可以设置线的交汇处的样式，lineJoin有3个属性值：miter(尖角，默认)，bevel（斜角）,round（圆角）
+     * lineCap 属性，定义线条的端点。lineCap有3个属性值：butt（平，默认）,round（圆）,square（方）
+     */
+    context.beginPath()
+    context.moveTo(0, 40)
+    context.lineTo(100, 40)
+    context.closePath()
+    context.lineWidth = 10
+    context.strokeStyle = 'green'
+    context.lineJoin = 'round'
+    context.stroke()
+
+    context.beginPath()
+    context.moveTo(0, 80)
+    context.lineTo(100, 80)
+    context.lineTo(100, 180)
+    context.closePath()
+    context.lineJoin = 'round'
+    context.lineCap = 'round'
+    context.stroke()
+
+    /**
+     *  绘制矩形
+     *  context.fillRect(x, y, width, height)
+     *  context.strokeRect(x, y, width, height)
+     */
+    var canvas2 = document.getElementById('canvas2')
+    var context2 = canvas2.getContext("2d")
+
+    context2.font = "bold 20px '宋体'"
+    context2.fillText('2. 绘制矩形', 0, 20)
+
+    context2.fillRect(0, 40, 50, 50)
+    context2.strokeRect(60, 40, 50, 50)
+
+    context2.fillStyle = 'green'
+    context2.strokeStyle = 'green'
+    context2.lineWidth = 5
+    context2.fillRect(0, 100, 50, 50)
+    context2.strokeRect(60, 100, 50, 50)
+
+    context2.fillRect(0, 160, 50, 50)
+    context2.clearRect(10, 170, 20, 20) // 清除矩形中的区域
+
+
+    /**
+     *  绘制圆弧
+     *  context.arc(x, y, radius, startAngle, endAngle, anticlockwise)
+     *  anticlockwise 规定应该逆时针还是顺时针绘图。false 为 顺时针(默认值)，true 为 逆时针
+     */
+    var canvas3 = document.getElementById('canvas3')
+    var context3 = canvas3.getContext("2d")
+
+    context3.font = "bold 20px '宋体'"
+    context3.fillText('3. 绘制圆', 0, 20)
+
+    context3.fillStyle = 'green'
+    context3.lineWidth = 3
+    context3.arc(25, 60, 20, 0, 2 * Math.PI)
+    context3.stroke()
+
+    context3.beginPath()
+    context3.arc(70, 60, 20, 0, 2 * Math.PI)
+    context3.fill()
+
+    /**
+     * 绘制曲线
+     * context.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y) 绘制贝塞尔曲线
+     * context.quadraticCurveTo(qcpx, qcpy, qx, qy) 绘制二次样条曲线
+     */
+    var canvas4 = document.getElementById('canvas4')
+    var context4 = canvas4.getContext("2d")
+
+    context4.font = "bold 20px '宋体'"
+    context4.fillText('4. 绘制曲线', 0, 20)
+
+    context4.moveTo(20, 30)
+    context4.lineWidth = 3
+    context4.strokeStyle = 'green'
+    context4.bezierCurveTo(50, 50, 500, 50, 150, 150)
+    context4.stroke()
+
+    /**
+     * 绘制渐变
+     * context.createLinearGradient(xStart, yStart, xEnd, yEnd) 线性渐变
+     * context.addColorStop(offset, color) 线性渐变颜色(offset: 设定的颜色离渐变结束点的偏移量(0~1))
+     */
+    var canvas5 = document.getElementById('canvas5')
+    var context5 = canvas5.getContext("2d")
+
+    context5.font = "bold 20px '宋体'"
+    context5.fillText('5. 绘制渐变', 0, 20)
+
+    var grd = context5.createLinearGradient(0, 30, 300, 200)
+    grd.addColorStop(0, "#ff0000")
+    grd.addColorStop(1, "#0000ff")
+    context5.fillStyle = grd
+    context5.fillRect(0, 30, 300, 200)
+
+    /**
+     * context.createLinearGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd) 径向（发散）渐变
+     */
+    var canvas6 = document.getElementById('canvas6')
+    var context6 = canvas6.getContext("2d")
+
+    grd = context6.createRadialGradient(150, 100, 0, 150, 100, 100);
+    grd.addColorStop(0, 'rgb(100,200,100)');
+    grd.addColorStop(1, 'rgb(50,100,10)');
+    context6.fillStyle = grd;
+    context6.beginPath();
+    context6.arc(150, 100, 100, 0, Math.PI * 2, true);
+    context6.closePath();
+    context6.fill();
+
+    /**
+     * 绘制阴影
+     * context.shadowOffsetX : 阴影的横向位移量（默认值为0）
+     * context.shadowOffsetY : 阴影的纵向位移量（默认值为0）
+     * context.shadowColor : 阴影的颜色
+     * context.shadowBlur : 阴影的模糊范围（值越大越模糊）
+     */
+
+    var canvas7 = document.getElementById('canvas7')
+    var context7 = canvas7.getContext("2d")
+
+    context7.font = "bold 20px '宋体'"
+    context7.fillText('6. 绘制阴影', 0, 20)
+
+    context7.shadowOffsetX = 8
+    context7.shadowOffsetY = 8
+    context7.shadowBlur = 5
+    context7.shadowColor = '#ccc'
+    context7.fillStyle = '#ffcc00'
+    context7.fillRect(30, 30, 60, 60)
+
+    /**
+     * 绘制图像
+     * context.drawImage(image, x, y, w, h)
+     * image:Image对象var img=new Image(); img.src="url(...)"
+     * x: 图像左上顶点的x坐标
+     * y: 图像左上顶点的y坐标
+     * w: 绘制图像的宽度
+     * h: 绘制图像的高度
+     *
+     * context.drawImage(image, x, y, w, h, dx, dy, dw, dh) 选取图像的一部分矩形区域进行绘制
+     * dx：画在canvas的x坐标
+     * dy：画在canvas的y坐标
+     * dw：画出来的宽度
+     * dh：画出来的高度
+     *
+     * context.createPattern(image, type) 图像平铺
+     * type: no-repeat: 不平铺  repeat-x: 横方向平铺  repeat-y: 纵方向平铺  repeat: 全方向平铺
+     *
+     * context.clip() 图像裁剪
+     *
+     *
+     */
+    var canvas8 = document.getElementById('canvas8')
+    var context8 = canvas8.getContext("2d")
+
+    context8.font = "bold 20px '宋体'"
+    context8.fillText('7. 绘制图像', 0, 20)
+
+    var img = new Image()
+    img.src = 'http://pic75.nipic.com/file/20150821/9448607_145742365000_2.jpg'
+    img.onload = function() {
+      // context8.drawImage(img, 0, 30)
+      context8.drawImage(img, 0, 30, 500, 400)
+      // context8.drawImage(img, 0, 30, 500, 400, 40, 40, 200, 200)
+    }
+
+    /**
+     * canvas 变形
+     * context.translate(x, y) 平移
+     * context.scale(x, y) 缩放
+     * context.rotate(angle) 旋转
+     */
+
+    var canvas9 = document.getElementById('canvas9')
+    var context9 = canvas9.getContext("2d")
+
+    context9.font = "bold 20px '宋体'"
+    context9.fillText('8. canvas 变形', 0, 20)
+
+    context9.fillStyle = "#eecc33";
+    //平移1 缩放2 旋转3
+    context9.translate(150, 10);
+    context9.scale(0.5, 0.5);
+    context9.rotate(Math.PI / 3);
+    context9.fillRect(0, 50, 200, 200);
+
+    /**
+     * 图形组合
+     * context.globalCompositeOperation=type
+     * source-over（默认值）: 在原有图形上绘制新图形
+     * destination-over : 在原有图形下绘制新图形
+     * source-in : 显示原有图形和新图形的交集，新图形在上，所以颜色为新图形的颜色
+     * destination-in : 显示原有图形和新图形的交集，原有图形在上，所以颜色为原有图形的颜色
+     * source-out : 只显示新图形非交集部分
+     * destination-out : 只显示原有图形非交集部分
+     * source-atop : 显示原有图形和交集部分，新图形在上，所以交集部分的颜色为新图形的颜色
+     * destination-atop : 显示新图形和交集部分，新图形在下，所以交集部分的颜色为原有图形的颜色
+     * lighter : 原有图形和新图形都显示，交集部分做颜色叠加
+     * xor : 重叠飞部分不现实
+     * copy : 只显示新图形
+     */
+
+    var canvas10 = document.getElementById('canvas10')
+    var context10 = canvas10.getContext("2d")
+
+    context10.font = "bold 20px '宋体'"
+    context10.fillText('9. 图形组合', 0, 20)
+
+     //蓝色矩形
+    context10.fillStyle = "blue";
+    context10.fillRect(10, 30, 60, 60);
+
+    //设置组合方式 source-over（默认值）
+    context10.globalCompositeOperation = 'destination-over'
+
+    //红色圆形
+    context10.beginPath();
+    context10.fillStyle = "red";
+    context10.arc(60, 80, 30, 0, 2*Math.PI , true);
+    context10.closePath();
+    context10.fill();
+
+  </script>
+</body>
+</html>
