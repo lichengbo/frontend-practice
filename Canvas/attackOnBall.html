@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>进击的小球</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .wrap {
+      width: 800px;
+      margin: 0 auto;
+    }
+    #canvas {
+      margin-top: 20px;
+      border: 1px solid gray;
+    }
+    .btn-wrap {
+      margin-top: 10px;
+    }
+    button {
+      width: 70px;
+      height: 36px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div class="btn-wrap">
+      <button onclick="ball.run()">开始</button>
+      <button onclick="ball.reset()">复位</button>
+      <button onclick="ball.addSpeedX()">横向加速</button>
+      <button onclick="ball.addSpeedY()">纵向加速</button>
+      <button onclick="ball.addFriction()">撞击衰减</button>
+    </div>
+  </div>
+  <script>
+    let canvas = document.getElementById('canvas')
+    let context = canvas.getContext('2d')
+    const BALL_X = 20
+    const BALL_Y = 20
+    const BALL_VX = 2
+    const BALL_VY = 2
+    const BALL_RADIUS = 15
+    const BALL_SPEED = 10
+    const BALL_FRICTION = 1
+
+    let ball = {
+      x: BALL_X,
+      y: BALL_Y,
+      radius: BALL_RADIUS,
+      vx: BALL_VX,
+      vy: BALL_VY,
+      friction: BALL_FRICTION, // 摩擦力
+      timer: null,
+      draw() {
+        context.clearRect(0, 0, 800, 400)
+        context.beginPath()
+        context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI)
+        context.fill()
+      },
+      update() {
+        this.x += this.vx
+        this.y += this.vy
+
+        if(this.x < this.radius || this.x > 800 - this.radius) {
+          this.vx = -this.vx * this.friction
+        }
+        if(this.y < this.radius || this.y > 400 - this.radius) {
+          this.vy = -this.vy * this.friction
+        }
+      },
+      run() {
+        this.timer = setInterval(() => {
+          this.draw()
+          this.update()
+        }, 20)
+      },
+      reset() {
+        clearInterval(this.timer)
+        this.x = BALL_X
+        this.y = BALL_Y
+        this.vx = BALL_VX
+        this.vy = BALL_VY
+        this.friction = BALL_FRICTION
+        this.draw()
+      },
+      addSpeedX() {
+        if(this.vy < 0) {
+          this.vx -= 1
+        } else {
+          this.vx += 1
+        }
+      },
+      addSpeedY() {
+        if(this.vy < 0) {
+          this.vy -= 1
+        } else {
+          this.vy += 1
+        }
+      },
+      addFriction() {
+        this.friction *= 0.8
+      }
+    }
+
+    ball.draw()
+  </script>
+</body>
+</html>
