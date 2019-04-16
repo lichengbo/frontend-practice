@@ -71,13 +71,13 @@ CSS
 JavaScript
 - 避免频繁操作样式，最好一次性重写style属性，或者将样式列表定义为class并一次性更改class属性。
 - 避免频繁操作DOM，创建一个documentFragment，在它上面应用所有DOM操作，最后再把它添加到文档中。
-- 也可以先为元素设置display: none，操作结束后再把它显示出来。因为在display属性为none的元素上进行的DOM操作不会引发回流和重绘。
+- 也可以先为元素设置display: none，操作结束后再把它显示出来。因为在display属性为none的元素上进行的DOM操作不会引发重绘和回流。
 - 避免频繁读取会引发回流/重绘的属性(offsetLeft)，如果确实需要多次使用，就用一个变量缓存起来。
 - 对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。
 - 使用CSS3的transition也可以获得不错的性能。
 
 ## js 延迟加载
-- defer和async都是使script异步加载的意思，当都没有设置这个属性的时候，html的加载会被阻塞等着script加载完成和执行完成后再渲染页面。
+- async和defer都是使script异步加载的意思，当都没有设置这个属性的时候，html的加载会被阻塞等着script加载完成和执行完成后再渲染页面。
 - 当设置了async时，异步加载，一旦加载完成则阻塞html渲染，进行执行，而且如果有多个script标签则谁先加载完，谁先执行。
 - 当设置了defer时，异步加载，不会阻塞html，待html渲染完毕后DOMContentLoaded之前再进行script执行。
 
@@ -409,15 +409,61 @@ require，exports，module.exports 是AMD规范
 require是运行时调用，所以require理论上可以运用在代码的任何地方
 
 ## ES6 增加了哪些新特性
-块级作用域的let和const
-箭头函数 =>
-模版表达式
-Promise
-类
-默认参数
-拆包表达式
-改进的对象表达式
-模块化
+- 块级作用域的let和const
+ES5中只有全局作用域和函数作用域，存在变量提升；内层变量覆盖外层变量；变量泄露，成为全局变量；循环体中的变量问题
+
+- 数组扩展
+Array.from() : 将伪数组对象或可遍历对象转换为真数组。如函数的arguments对象，以及大多数 DOM 元素集，还有字符串。
+
+Array.of(v1, v2, v3) : 将一系列值转换成数组。解决new Array(2), new Array(1, 2) 参数不一致生成的数组不一致问题。
+
+数组实例的 find() 和 findIndex()
+eg: [1, 4, -5, 10].find((n) => n < 0)
+
+数组实例的includes() eg:[1, 2, 3].includes(2)   // true
+
+数组实例的 entries()，keys() 和 values()
+
+- 箭头函数 =>
+缩减代码、改变this指向
+使用时注意：
+函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
+不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用 rest 参数代替。
+不可以使用yield命令，因此箭头函数不能用作 Generator 函数。
+
+- rest 参数
+引入 rest 参数（形式为...变量名），用于获取函数的多余参数，这样就不需要使用arguments对象了。
+const numbers = (...nums) => nums;
+numbers(1, 2, 3, 4, 5)// [1,2,3,4,5]
+
+- 展开运算符
+let values = [25,50,75,	100]
+console.log(Math.max(...values));
+
+var defaultColors = ["red","greed"];
+var favoriteColors = ["orange","yellow"];
+var fallColors = ["fire red","fall orange"];
+console.log(["blue","green",...fallColors,...defaultColors,...favoriteColors]
+
+- 解析构值
+let node = {type:"Identifier",	name:"foo"},
+type = "Literal",name = 5; // es5 赋值
+({type,name} = node);//	使用解构来分配不同的值
+
+const names = ["Henry","Bucky","Emily"];
+const [name1,name2,name3] = names;
+
+- 模版表达式
+它可以当作普通字符串使用，也可以用来定义多行字符串，或者在字符串中嵌入变量。
+模板字符串中嵌入变量和函数，需要将变量名写在${}之中。
+
+- class extends
+- Promise
+- Iterator 和 for...of 循环
+- ES6模块化
+
+[ES6核心特性](https://github.com/ljianshu/Blog/issues/10)
 
 ## 箭头函数的优点或特点
 箭头函数表达式的语法比函数表达式更简洁，并且没有自己的this，arguments，super或 new.target。这些函数表达式更适用于那些本来需要匿名函数的地方，并且它们不能用作构造函数。
@@ -511,7 +557,7 @@ Object.definePrototype(data, 'text', {
 
 ## Vue 的组件通信
 1. props
-2. $attrs
+2. $attrs、$listener
 3. emit、on、off
 4. EventBus
 5. Vuex
@@ -665,3 +711,15 @@ SPA 首屏优化
 1. SEO难度较高
 2. 前进、后退管理
 3. 初次加载耗时多
+
+vue-router 有哪几种导航钩子?
+全局导航钩子
+router.beforeEach(to, from, next),
+router.beforeResolve(to, from, next),
+router.afterEach(to, from ,next)
+组件内钩子
+beforeRouteEnter,
+beforeRouteUpdate,
+beforeRouteLeave
+单独路由独享组件
+beforeEnter
