@@ -173,59 +173,78 @@ http://es6.ruanyifeng.com/#docs/class-extends
 
 ## __proto__ 和 prototype 的区别
 prototype 是一个显式的原型属性，只有函数才拥有该属性。
-所有通过函数 new 出来的对象，这个对象都有一个 __proto__ 指向这个函数的 prototype。
-当你想要使用一个对象（或者一个数组）的某个功能时：如果该对象本身具有这个功能，则直接使用；如果该对象本身没有这个功能，则去 __proto__ 中找。
+所有通过函数 new 出来的对象，这个对象都有一个 \_\_proto\_\_ 指向这个函数的 prototype。
+当你想要使用一个对象（或者一个数组）的某个功能时：如果该对象本身具有这个功能，则直接使用；如果该对象本身没有这个功能，则去 \_\_proto\_\_ 中找。
 显式原型：用来实现基于原型的继承与属性的共享。
 隐式原型：构成原型链，同样用于实现基于原型的继承。
-实例的 __proto__ 属性等于其构造函数的prototype属性。
+实例的 \_\_proto\_\_ 属性等于其构造函数的prototype属性。
 
+```
 function GirlFriend () {
-     this.name = "Alice";
-   }
-   //现在我设置GirlFriend()这个函数的prototype属性
-   //一般来说直接用匿名的对象就行，我这里是为了方便理解，
-   //先定义一个hand对象再把hand赋值给GirlFriend()的prototype
-   var hand = {
-     whichOne: "right hand",
-     someFunction: function(){
-       console.log("not safe for work.");
-     }
-   };
-   GirlFriend.prototype = hand;
+  this.name = "Alice";
+}
+//现在我设置GirlFriend()这个函数的prototype属性
+//一般来说直接用匿名的对象就行，我这里是为了方便理解，
+//先定义一个hand对象再把hand赋值给GirlFriend()的prototype
+var hand = {
+  whichOne: "right hand",
+  someFunction: function(){
+    console.log("not safe for work.");
+  }
+};
+GirlFriend.prototype = hand;
 
-   //这个时候，我们可以用GirlFriend()作为构造函数，构造出myObject对象
-   var myObject = new GirlFriend();
-   console.log(myObject.__proto__ === GirlFriend.prototype) //true
+//这个时候，我们可以用GirlFriend()作为构造函数，构造出myObject对象
+var myObject = new GirlFriend();
+console.log(myObject.__proto__ === GirlFriend.prototype) //true
+```
 
 ## es5 继承
 1. 原型链法
-function A() {}
-function B() {}
-B.prototype = new A();
-原型链实现继承最大的问题是：当原型中存在引用类型值时，实例可以修改其值。
+```
+function Parent() {}
+function Child() {}
+Child.prototype = new Parent();
+```
+问题：
+- 当原型中存在引用类型值时，实例可以修改其值。
+- 在创建 Child 的实例时，不能向Parent传参
 
-2.
-function A(){}
-function B(){
-  A.call(this);
+2. 借用构造函数(经典继承)
+```
+function Parent(){}
+function Child(){
+  Parent.call(this);
 }
+```
 
-3.
-function A() {}
-function B() {
-  A.call(this)
+优点：
+- 避免了引用类型的属性被所有实例共享
+- 可以在 Child 中向 Parent 传参
+缺点：
+- 方法都在构造函数中定义，每次创建实例都会创建一遍方法。
+
+3. 组合继承
+```
+function Parent() {}
+function Child() {
+  Parent.call(this)
 }
-B.prototype = new A();
+Child.prototype = new Parent()
+Child.prototype.constructor = Child
+```
 
 ## es6 继承
-class Point {
+```
+class Parent {
 }
 
-class ColorPoint extends Point {
+class Child extends Parent {
   constructor() {
     super()
   }
 }
+```
 
 ## for of 和 for in 的区别
 1. 推荐在循环对象属性的时候，使用for...in,在遍历数组的时候的时候使用for...of。
@@ -252,7 +271,7 @@ addEventListener 第三个参数useCapture boolean 值决定了是捕获事件�
 
 ## HTTP 协议
 - HTTP1.0定义了三种请求方法： GET、POST 和 HEAD
-- HTTP1.1新增了五种请求方法：OPTIONS、PUT、PATCH、DELETE、TRACE 、 CONNECT
+- HTTP1.1新增了五种请求方法：OPTIONS、PUT、PATCH、DELETE、TRACE 、CONNECT
 
 2开头 （请求成功）表示成功处理了请求的状态代码。
 - 200   （成功）  服务器已成功处理了请求。 通常，这表示服务器提供了请求的网页。
@@ -407,6 +426,17 @@ import是静态执行的
 
 require，exports，module.exports 是AMD规范
 require是运行时调用，所以require理论上可以运用在代码的任何地方
+
+ES6 模块与 CommonJS 模块的差异
+1. CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
+- CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。
+- ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令import，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。换句话说，ES6 的import有点像 Unix 系统的“符号连接”，原始值变了，import加载的值也会跟着变。因此，ES6 模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。
+
+2. CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
+- 运行时加载: CommonJS 模块就是对象；即在输入时是先加载整个模块，生成一个对象，然后再从这个对象上面读取方法，这种加载称为“运行时加载”。
+- 编译时加载: ES6 模块不是对象，而是通过 export 命令显式指定输出的代码，import时采用静态命令的形式。即在import时可以指定加载某个输出值，而不是加载整个模块，这种加载称为“编译时加载”。
+
+3. CommonJS 具有缓存。在第一次被加载时，会完整运行整个文件并输出一个对象，拷贝（浅拷贝）在内存中。下次加载文件时，直接从内存中取值
 
 ## ES6 增加了哪些新特性
 - 块级作用域的let和const
@@ -566,11 +596,15 @@ Object.definePrototype(data, 'text', {
 兄弟 bus vuex
 跨级 bus vuex provide.inject
 
+## Vue diff
+
+
 ## vuex
 vuex 是专门为 vue 开发的数据状态管理模式。组件之间数据状态共享
 state、getter、mutation、action、module
 
 ## Vue 和React 的区别
+https://github.com/lihongxun945/myblog/issues/21
 相同点：
 React采用特殊的JSX语法，Vue.js在组件开发中也推崇编写.vue特殊文件格式，对文件内容都有一些约定，两者都需要编译后使用。
 中心思想相同：一切都是组件，组件实例之间可以嵌套。
@@ -598,6 +632,10 @@ Vue组件分为全局注册和局部注册，在react中都是通过import相应
 
 4. Vue增加的语法糖computed和watch，而在React中需要自己写一套逻辑来实现；
 
+5. 监听数据变化的实现原理不同
+Vue 通过 getter/setter 以及一些函数的劫持，能精确知道数据变化，不需要特别的优化就能达到很好的性能
+React 默认是通过比较引用的方式进行的，如果不优化（PureComponent/shouldComponentUpdate）可能导致大量不必要的VDOM的重新渲染
+
 [Vue问得最多的面试题](https://zhuanlan.zhihu.com/p/53703176)
 
 # webpack
@@ -622,6 +660,19 @@ style-loader：把 CSS 代码注入到 JavaScript 中，通过 DOM 操作去加�
 define-plugin：定义环境变量
 commons-chunk-plugin：提取公共代码
 uglifyjs-webpack-plugin：通过UglifyES压缩ES6代码
+
+## babel转译的具体过程如下
+ES6代码输入 -> babylon进行解析 -> 得到AST -> plugin用babel-traverse对AST树进行遍历转译 -> 得到新的AST树 -> 用babel-generator通过AST树生成ES5代码
+
+babel、babel-polyfill的区别
+babel-polyfill：模拟一个es6环境，提供内置对象如Promise和WeakMap
+引入babel-polyfill全量包后文件会变得非常大。它提供了诸如 Promise，Set 以及 Map 之类的内置插件，这些将污染全局作用域,可以编译原型链上的方法。
+babel-plugin-transform-runtime &  babel-runtime：转译器将这些内置插件起了别名 core-js，这样你就可以无缝的使用它们，并且无需使用 polyfill。但是无法编译原型链上的方法
+runtime 编译器插件做了以下三件事：
+
+当你使用 generators/async 函数时，自动引入 babel-runtime/regenerator 。
+自动引入 babel-runtime/core-js 并映射 ES6 静态方法和内置插件。
+移除内联的 Babel helper 并使用模块 babel-runtime/helpers 代替。
 
 ## webpack的构建流程是什么?从读取配置到输出文件这个过程尽量说全
 Webpack 的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：
@@ -678,16 +729,6 @@ webpack支持监听模式，此时需要重新编译时就可以进行增量构�
 ## 柯里化
 柯里化又称为部分求值，是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回一个新的函数的技术，新函数接受余下参数并返回运算结果。
 
-babel、babel-polyfill的区别
-babel-polyfill：模拟一个es6环境，提供内置对象如Promise和WeakMap
-引入babel-polyfill全量包后文件会变得非常大。它提供了诸如 Promise，Set 以及 Map 之类的内置插件，这些将污染全局作用域,可以编译原型链上的方法。
-babel-plugin-transform-runtime &  babel-runtime：转译器将这些内置插件起了别名 core-js，这样你就可以无缝的使用它们，并且无需使用 polyfill。但是无法编译原型链上的方法
-runtime 编译器插件做了以下三件事：
-
-当你使用 generators/async 函数时，自动引入 babel-runtime/regenerator 。
-自动引入 babel-runtime/core-js 并映射 ES6 静态方法和内置插件。
-移除内联的 Babel helper 并使用模块 babel-runtime/helpers 代替。
-
 ## 性能优化
 1. 减少HTTP 请求数
   CSS/JS 合并打包
@@ -712,7 +753,7 @@ SPA 首屏优化
 2. 前进、后退管理
 3. 初次加载耗时多
 
-vue-router 有哪几种导航钩子?
+## vue-router 有哪几种导航钩子?
 全局导航钩子
 router.beforeEach(to, from, next),
 router.beforeResolve(to, from, next),
