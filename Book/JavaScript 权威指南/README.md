@@ -10,5 +10,9 @@
 常用的字符串方法 String.charAt()、String.substring()、String.slice()、String.indexOf()、String.split()、String.replace()、String.toUpperCase() （思考：源码实现）
 JS 中字符串是固定不变的，类似replace、toUpperCase 是返回新的字符串，原字符串本身不发生变化。
 
+### 3.10 变量作用域
+- 块级作用域
+- 声明提前
+
 
 
